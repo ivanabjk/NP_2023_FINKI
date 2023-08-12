@@ -1,0 +1,2 @@
+# NP_2023_FINKI
+NP Exercises 2022/2023 FINKI
