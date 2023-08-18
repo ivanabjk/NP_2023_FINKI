@@ -98,7 +98,7 @@ class TimeTable{
     List<Time> times;
 
     public TimeTable() {
-        times = new ArrayList<Time>();
+        times = new ArrayList<>();
     }
     public void readTimes(InputStream in) throws InvalidTimeException, UnsupportedFormatException {
         Scanner scanner = new Scanner(in);
