@@ -33,13 +33,10 @@ public class TripleTest {
 }
 
 class Triple<T extends Number>{
-    //T first, second, third;
     List<T> numbers;
 
     public Triple(T first, T second, T third) {
-//        this.first = first;
-//        this.second = second;
-//        this.third = third;
+
         numbers = new ArrayList<>();
         numbers.add(first);
         numbers.add(second);
