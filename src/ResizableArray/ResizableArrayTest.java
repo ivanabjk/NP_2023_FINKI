@@ -137,17 +137,17 @@ class ResizableArray <T>{
     public void addElement(T element){
         if(size == arr.length)
             arr = Arrays.copyOf(arr, size<<1);
-        arr[size++] = element;
-        //size++;
+        arr[size] = element;
+        size++;
     }
     public boolean removeElement(T element){
         int index = find(element);
         if(index == -1)
             return false;
-        //size--;
-        arr[index] = arr[--size];
+        size--;
+        arr[index] = arr[size];
         if (size<<2 <= arr.length)
-            arr = Arrays.copyOf(arr, size<<1 > 0 ? size<<1 : 1);
+            arr = Arrays.copyOf(arr, size > 0 ? size<<1 : 1);
         return true;
     }
     private int find(T element){
@@ -177,10 +177,6 @@ class ResizableArray <T>{
             dest.addElement(src.elementAt(i));
         }
     }
-    @Override
-    public String toString() {
-        return Arrays.toString(Arrays.copyOf(arr, size))+" "+ arr.length+" "+size;
-    }
 }
 class IntegerArray extends ResizableArray<Integer>{
 
@@ -202,16 +198,16 @@ class IntegerArray extends ResizableArray<Integer>{
         int counter = 0;
         Object[] a = toArray();
         for(int i = 0; i < a.length; i++)
-            counter += (Integer) a[i] != 0 ? 1:0;
+            counter += (Integer) a[i] == 0 ? 0:1;
         return counter;
     }
     public IntegerArray distinct(){
         IntegerArray result = new IntegerArray();
         Object[] a = toArray();
         Arrays.sort(a);
-        for( int i = 0; i < a.length; ++i){
+        for( int i = 0; i < a.length; i++){
             while( i < a.length-1 && a[i].equals(a[i+1])) {
-                ++i;
+                i++;
             }
             result.addElement((Integer) a[i]);
         }
@@ -220,8 +216,8 @@ class IntegerArray extends ResizableArray<Integer>{
     public IntegerArray increment(int offset){
         IntegerArray result = new IntegerArray();
         Object[] a = toArray();
-        for( int i = 0; i < a.length; ++i){
-            result.addElement((Integer)a[i]+offset);
+        for( int i = 0; i < a.length; i++){
+            result.addElement((Integer) a[i] + offset);
         }
         return result;
     }
