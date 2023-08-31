@@ -12,14 +12,19 @@ public class ChatSystemTest {
         int k = jin.nextInt();
         if ( k == 0 ) {
             ChatRoom cr = new ChatRoom(jin.next());
+            int j = 0;
             int n = jin.nextInt();
             for ( int i = 0 ; i < n ; ++i ) {
                 k = jin.nextInt();
                 if ( k == 0 ) cr.addUser(jin.next());
                 if ( k == 1 ) cr.removeUser(jin.next());
-                if ( k == 2 ) System.out.println(cr.hasUser(jin.next()));
+                if ( k == 2 ) {
+                    System.out.println(cr.hasUser(jin.next()));
+                    j++;
+                }
             }
-            System.out.println("");
+            if(j != 0)
+                System.out.println("");
             System.out.println(cr.toString());
             n = jin.nextInt();
             if ( n == 0 ) return;
@@ -45,7 +50,7 @@ public class ChatSystemTest {
                     if ( m.getName().equals(cmd) ) {
                         String [] params = new String[m.getParameterTypes().length];
                         for ( int i = 0 ; i < params.length ; ++i ) params[i] = jin.next();
-                        m.invoke(cs, params);
+                        m.invoke(cs, (Object[]) params);
                     }
                 }
             }
@@ -98,7 +103,7 @@ class ChatSystem{
         users = new TreeSet<>();
     }
     public void addRoom(String roomName){
-        chatRooms.putIfAbsent(roomName, new ChatRoom(roomName));
+        chatRooms.put(roomName, new ChatRoom(roomName));
     }
     public void removeRoom(String roomName){
         chatRooms.remove(roomName);
@@ -119,7 +124,7 @@ class ChatSystem{
         int min = Integer.MAX_VALUE;
         for(ChatRoom room : chatRooms.values()){
             if(room.numUsers() < min){
-                minUserRooms = new LinkedList<ChatRoom>();
+                minUserRooms = new LinkedList<>();
                 min = room.numUsers();
             }
             if(room.numUsers() == min){
@@ -129,15 +134,16 @@ class ChatSystem{
         if(minUserRooms.isEmpty()) return;
         minUserRooms.getFirst().addUser(userName);
     }
+
     public void registerAndJoin(String userName, String roomName) throws NoSuchRoomException, NoSuchUserException {
-        register(userName);
+        users.add(userName);
         joinRoom(userName, roomName);
     }
     public void joinRoom(String userName, String roomName) throws NoSuchRoomException, NoSuchUserException {
-        chatRooms.get(getRoom(roomName)).addUser(getUser(userName));
+        getRoom(roomName).addUser(getUser(userName));
     }
     public void leaveRoom(String username, String roomName) throws NoSuchRoomException, NoSuchUserException {
-        chatRooms.get(getRoom(roomName)).removeUser(getUser(username));
+        getRoom(roomName).removeUser(getUser(username));
     }
     public void followFriend(String username, String friend_username) throws NoSuchRoomException, NoSuchUserException {
         for( Map.Entry<String, ChatRoom> room : chatRooms.entrySet()){
