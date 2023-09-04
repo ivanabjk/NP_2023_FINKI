@@ -3,12 +3,13 @@ package QuizProcessor;
 import java.io.InputStream;
 import java.util.*;
 
-class DifferentNumberOfAnswersException extends Exception{
+class DifferentNumberOfAnswersException extends Exception {
     public DifferentNumberOfAnswersException() {
         super("A quiz must have same number of correct and selected answers");
     }
 }
-class Student{
+
+class Student {
     String id;
     String[] answers;
     String[] correctAnswers;
@@ -21,26 +22,26 @@ class Student{
 
     double result() throws DifferentNumberOfAnswersException {
         double result = 0;
-        if(answers.length != correctAnswers.length)
+        if (answers.length != correctAnswers.length)
             throw new DifferentNumberOfAnswersException();
-        for(int i=0; i<answers.length; i++){
-            if(answers[i].equals(correctAnswers[i])){
+        for (int i = 0; i < answers.length; i++) {
+            if (answers[i].equals(correctAnswers[i])) {
                 result += 1;
-            }
-            else{
+            } else {
                 result -= 0.25;
             }
         }
         return result;
     }
 }
-class QuizProcessor{
-    static Map<String, Double> processAnswers(InputStream is){
+
+class QuizProcessor {
+    static Map<String, Double> processAnswers(InputStream is) {
         Scanner scanner = new Scanner(is);
         Map<String, Double> studentResults = new LinkedHashMap<>();
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String [] parts = line.split(";");
+            String[] parts = line.split(";");
             String id = parts[0];
 
             String[] answers = parts[1].split(",");
@@ -58,6 +59,7 @@ class QuizProcessor{
 
     }
 }
+
 public class QuizProcessorTest {
     public static void main(String[] args) {
         QuizProcessor.processAnswers(System.in).forEach((k, v) -> System.out.printf("%s -> %.2f%n", k, v));

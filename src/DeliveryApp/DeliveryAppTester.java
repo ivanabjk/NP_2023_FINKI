@@ -154,8 +154,8 @@ class DeliveryApp {
                 minDistance = currentDistance;
                 nearestDeliveryPerson = person;
             }
-            if(currentDistance == minDistance){
-                if(person.getOrders() < nearestDeliveryPerson.getOrders()){
+            if (currentDistance == minDistance) {
+                if (person.getOrders() < nearestDeliveryPerson.getOrders()) {
                     minDistance = currentDistance;
                     nearestDeliveryPerson = person;
                 }
